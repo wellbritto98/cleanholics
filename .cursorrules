@@ -1,0 +1,149 @@
+# CleanHolics - React Native Project Rules
+
+## Arquitetura do Projeto
+
+Este projeto segue uma arquitetura organizada em pastas específicas:
+
+```
+app/               # Telas e rotas do aplicativo (Expo Router)
+src/
+├── components/    # Componentes de UI reutilizáveis
+├── providers/     # Provedores customizados (Context, etc.)
+├── state/         # Gerenciamento de estado do cliente
+├── types/         # Tipos TypeScript globais
+└── utils/         # Utilitários e helpers
+```
+
+## Regras de Desenvolvimento
+
+### 1. Estrutura de Pastas
+- **app/**: Contém as telas e rotas do aplicativo (Expo Router)
+- **src/components/**: Apenas componentes de UI reutilizáveis
+- **src/providers/**: Provedores customizados (ThemeProvider, LoadingProvider, etc.)
+- **src/state/**: Estados do lado do cliente (hooks, context, etc.)
+- **src/types/**: Tipos TypeScript que serão usados em todo o aplicativo
+- **src/utils/**: Funções auxiliares e helpers globais
+
+### 2. Organização de Componentes
+- Siga a mesma estrutura de pastas da pasta `app` para componentes
+- Use a pasta `shared` dentro de `components` para componentes usados em vários lugares
+- Exemplo: `src/components/settings/account/avatar.tsx`
+
+### 3. Imports
+- Use sempre imports absolutos com `@/src/`
+- Exemplo: `import { Button } from '@/src/components/ui/button'`
+- Exemplo: `import { formatDate } from '@/src/utils/helpers'`
+
+### 4. Tipos TypeScript
+- Defina tipos globais em `src/types/index.ts`
+- Use interfaces para objetos complexos
+- Exporte tipos que serão reutilizados
+
+### 5. Estado e Context
+- Mantenha o mínimo de estado do lado do cliente
+- Use Context API para estado global
+- Crie hooks customizados em `src/state/`
+
+### 6. Utilitários
+- Coloque funções auxiliares em `src/utils/helpers.ts`
+- Exemplos: formatadores de data, moeda, validações
+- Mantenha funções puras quando possível
+
+### 7. Provedores
+- Crie provedores customizados em `src/providers/`
+- Exemplos: ThemeProvider, LoadingProvider, SuccessProvider
+- Use para funcionalidades que precisam ser compartilhadas
+
+## Convenções de Código
+
+### Nomenclatura
+- Use PascalCase para componentes: `UserProfile`
+- Use camelCase para funções: `formatDate`
+- Use camelCase para variáveis: `isLoading`
+- Use UPPER_CASE para constantes: `API_URL`
+
+### Componentes
+- Sempre use TypeScript
+- Defina props com interfaces
+- Use default exports para componentes principais
+- Use named exports para hooks e utilitários
+
+### Hooks
+- Prefixe com `use`: `useAppState`, `useLoading`
+- Retorne objetos com propriedades nomeadas
+- Documente o comportamento esperado
+
+### Estilização
+- Use NativeWind/Tailwind CSS
+- Mantenha classes organizadas
+- Use variantes para diferentes estados
+- Prefira classes utilitárias sobre CSS customizado
+
+## Estrutura de Commits
+
+Siga o padrão conventional commits:
+
+```
+feat: adicionar sistema de autenticação
+fix: corrigir erro de validação de email
+```
+
+## Exemplos de Uso
+
+### Componente
+```tsx
+// src/components/ui/Button.tsx
+import { cn } from '@/src/utils/utils';
+import { ButtonProps } from '@/src/types';
+
+export function Button({ variant = 'default', ...props }: ButtonProps) {
+  return (
+    <Pressable className={cn(buttonVariants({ variant }))} {...props} />
+  );
+}
+```
+
+### Hook
+```tsx
+// src/state/useLoading.ts
+export function useLoading(initialState = false) {
+  const [isLoading, setIsLoading] = useState(initialState);
+  
+  return {
+    isLoading,
+    startLoading: () => setIsLoading(true),
+    stopLoading: () => setIsLoading(false),
+  };
+}
+```
+
+### Utilitário
+```tsx
+// src/utils/helpers.ts
+export function formatCurrency(value: number): string {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value);
+}
+```
+
+## Boas Práticas
+
+1. **Mantenha componentes pequenos e focados**
+2. **Use TypeScript rigorosamente**
+3. **Prefira composição sobre herança**
+4. **Documente funções complexas**
+5. **Teste componentes críticos**
+6. **Mantenha a estrutura de pastas consistente**
+7. **Use hooks para lógica reutilizável**
+8. **Separe responsabilidades claramente**
+
+## Tecnologias
+
+- React Native com Expo
+- TypeScript
+- NativeWind/Tailwind CSS
+- Expo Router
+- React Navigation
+- Lucide Icons
